@@ -53,8 +53,8 @@ const BoardByIdPage: React.FC<Props> = async ({ params }) => {
 								return (
 									<li
 										key={task.id}
-										className='w-[280px] p-4 shadow-md rounded-lg bg-white flex flex-col gap-1'>
-										<h3 className='font-bold text-black text-lg'>
+										className='w-[280px] p-4 shadow-md rounded-lg bg-white dark:bg-mattBlack flex flex-col gap-1'>
+										<h3 className='font-bold text-black dark:text-white text-lg'>
 											{task.title}
 										</h3>
 										<span className='font-bold text-grayish'>

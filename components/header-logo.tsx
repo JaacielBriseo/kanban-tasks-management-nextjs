@@ -20,7 +20,7 @@ export const HeaderLogo = () => {
 				className='md:hidden'
 			/>
 			<div
-				className={cn('mb-1', {
+				className={cn('mb-1 hidden md:block', {
 					hidden: isSidebarOpen,
 				})}>
 				<Image

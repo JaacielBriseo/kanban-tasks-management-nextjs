@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 
+import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from '@/components/theme-provider';
 
 const font = Plus_Jakarta_Sans({
@@ -30,6 +31,7 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange>
 					{children}
+					<Toaster />
 				</ThemeProvider>
 			</body>
 		</html>

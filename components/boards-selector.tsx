@@ -8,7 +8,8 @@ import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 import iconBoard from '@/public/icon-board.svg';
-import iconBoardPurple from '@/public/icon-board-purple.svg';
+
+import { CreateNewBoardModal } from './boards/create-new-board-modal';
 
 interface Props {
 	userBoardsPromise: ReturnType<typeof userBoardsQuery>;
@@ -62,14 +63,7 @@ export const BoardsSelector = ({ userBoardsPromise }: Props) => {
 					);
 				})}
 				<li>
-					<button className='py-4 text-main font-bold flex items-center'>
-						<Image
-							src={iconBoardPurple}
-							alt='Create New Board'
-							className='size-5'
-						/>
-						&nbsp; +Create New Board
-					</button>
+					<CreateNewBoardModal />
 				</li>
 			</ul>
 		</div>
