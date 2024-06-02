@@ -22,7 +22,7 @@ export const usersTable = pgTable('users', {
 	deletedAt: timestamp('deleted_at'),
 });
 
-export const userBoardsRelation = relations(usersTable, ({ many }) => ({
+export const usersTableRelations = relations(usersTable, ({ many }) => ({
 	boards: many(boardsTable),
 }));
 
@@ -43,8 +43,12 @@ export const boardsTable = pgTable('boards', {
 	deletedAt: timestamp('deleted_at'),
 });
 
-export const boardColumnsRelation = relations(boardsTable, ({ many }) => ({
+export const boardRelations = relations(boardsTable, ({ many, one }) => ({
 	columns: many(columnsTable),
+	user: one(usersTable, {
+		fields: [boardsTable.userId],
+		references: [usersTable.id],
+	}),
 }));
 
 export const columnsTable = pgTable('columns', {
@@ -65,8 +69,12 @@ export const columnsTable = pgTable('columns', {
 	deletedAt: timestamp('deleted_at'),
 });
 
-export const columnTasksRelation = relations(columnsTable, ({ many }) => ({
+export const columnTasksRelation = relations(columnsTable, ({ many, one }) => ({
 	tasks: many(tasksTable),
+	board: one(boardsTable, {
+		fields: [columnsTable.boardId],
+		references: [boardsTable.id],
+	}),
 }));
 
 export const tasksTable = pgTable('tasks', {
@@ -88,8 +96,12 @@ export const tasksTable = pgTable('tasks', {
 	deletedAt: timestamp('deleted_at'),
 });
 
-export const taskSubtasksRelation = relations(tasksTable, ({ many }) => ({
+export const taskSubtasksRelation = relations(tasksTable, ({ many, one }) => ({
 	subtasks: many(subtasksTable),
+	column: one(columnsTable, {
+		fields: [tasksTable.columnId],
+		references: [columnsTable.id],
+	}),
 }));
 
 export const subtasksTable = pgTable('subtasks', {
@@ -109,6 +121,13 @@ export const subtasksTable = pgTable('subtasks', {
 		.$onUpdate(() => new Date()),
 	deletedAt: timestamp('deleted_at'),
 });
+
+export const subtaskTaskRelation = relations(subtasksTable, ({ one }) => ({
+	task: one(tasksTable, {
+		fields: [subtasksTable.taskId],
+		references: [tasksTable.id],
+	}),
+}));
 
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
