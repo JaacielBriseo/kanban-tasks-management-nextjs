@@ -1,20 +1,27 @@
 'use client';
 
-import sidebarLogoLight from '@/public/logo-light.svg';
-import sidebarLogoDark from '@/public/logo-dark.svg';
-import Image from 'next/image';
-import { BoardsSelector } from '../boards-selector';
-import { userBoardsQuery } from '@/lib/queries/user-boards-query';
-import { ThemeSwitcher } from '../theme-switcher';
+import { use } from 'react';
 
-import iconHideSidebar from '@/public/icon-hide-sidebar.svg';
-import { useSidebar } from '@/lib/hooks/use-sidebar';
+import Image from 'next/image';
+
 import { cn } from '@/lib/utils';
+import { useSidebar } from '@/lib/hooks/use-sidebar';
+import { userBoardsQuery } from '@/lib/queries/user-boards-query';
+
+import { ThemeSwitcher } from '@/components/theme-switcher';
+import { BoardsSelector } from '@/components/boards-selector';
+
+import sidebarLogoDark from '@/public/logo-dark.svg';
+import sidebarLogoLight from '@/public/logo-light.svg';
+import iconHideSidebar from '@/public/icon-hide-sidebar.svg';
+
 interface Props {
 	userBoardsPromise: ReturnType<typeof userBoardsQuery>;
 }
 export const Sidebar = ({ userBoardsPromise }: Props) => {
 	const { isSidebarOpen, toggleSidebar } = useSidebar();
+
+	const boards = use(userBoardsPromise);
 
 	return (
 		<aside
@@ -40,7 +47,7 @@ export const Sidebar = ({ userBoardsPromise }: Props) => {
 					/>
 				</div>
 				<div>
-					<BoardsSelector userBoardsPromise={userBoardsPromise} />
+					<BoardsSelector boards={boards} />
 				</div>
 			</div>
 			<div className='flex flex-col gap-5'>

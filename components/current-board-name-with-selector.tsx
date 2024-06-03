@@ -12,16 +12,22 @@ import { BoardsSelector } from '@/components/boards-selector';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import iconChevronDown from '@/public/icon-chevron-down.svg';
+import { usersTableRelations } from '@/db/schema';
 
 interface Props {
-	userBoardsPromise: ReturnType<typeof userBoardsQuery>;
+	boards: Array<{
+		id: number;
+		name: string;
+		createdAt: Date;
+		updatedAt: Date;
+		deletedAt: Date | null;
+		userId: number;
+	}>;
 }
 
-export const CurrentBoardNameWithSelector = ({ userBoardsPromise }: Props) => {
-	const boards = use(userBoardsPromise);
-
+export const CurrentBoardNameWithSelector = ({ boards }: Props) => {
 	const params = useParams();
-	const currentBoardId = params.boardId.toString() || '';
+	const currentBoardId = params.boardId?.toString() || '';
 
 	const currentBoard = boards.find(
 		board => board.id === Number(currentBoardId)
@@ -45,7 +51,7 @@ export const CurrentBoardNameWithSelector = ({ userBoardsPromise }: Props) => {
 				className='w-11/12 max-w-[375px] rounded-xl overflow-hidden border-0'
 				showCloseButton={false}>
 				<Suspense fallback={'loading...'}>
-					<BoardsSelector userBoardsPromise={userBoardsPromise} />
+					<BoardsSelector boards={boards} />
 				</Suspense>
 
 				<ThemeSwitcher />

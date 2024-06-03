@@ -1,7 +1,4 @@
 'use client';
-import { use } from 'react';
-import { userBoardsQuery } from '@/lib/queries/user-boards-query';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -12,22 +9,27 @@ import iconBoard from '@/public/icon-board.svg';
 import { CreateNewBoardModal } from './boards/create-new-board-modal';
 
 interface Props {
-	userBoardsPromise: ReturnType<typeof userBoardsQuery>;
+	boards: Array<{
+		id: number;
+		name: string;
+		createdAt: Date;
+		updatedAt: Date;
+		deletedAt: Date | null;
+		userId: number;
+	}>;
 }
-export const BoardsSelector = ({ userBoardsPromise }: Props) => {
-	const userBoards = use(userBoardsPromise);
-
+export const BoardsSelector = ({ boards }: Props) => {
 	const params = useParams();
 
-	const currentBoardId = params.boardId.toString() || '';
+	const currentBoardId = params.boardId?.toString() || '';
 
 	return (
 		<div className='space-y-5'>
 			<h2 className='font-bold text-sm leading-5 text-grayish tracking-[2.4px] uppercase'>
-				All Boards ({userBoards.length})
+				All Boards ({boards.length})
 			</h2>
 			<ul className='flex flex-col'>
-				{userBoards.map(board => {
+				{boards.map(board => {
 					const isActive = board.id === Number(currentBoardId);
 
 					return (
