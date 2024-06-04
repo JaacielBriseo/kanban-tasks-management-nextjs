@@ -7,9 +7,6 @@ export const boardColumnsQuery = async (boardId: number) => {
 		const board = await db.query.boardsTable.findFirst({
 			where: (boardsTable, { eq }) => eq(boardsTable.id, boardId),
 		});
-		console.log({
-			board
-		});
 
 		if (!board) {
 			return [];

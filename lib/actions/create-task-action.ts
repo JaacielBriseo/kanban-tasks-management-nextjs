@@ -1,9 +1,12 @@
 'use server';
 
-import { subtasksTable, tasksTable } from '@/db/schema';
-import { CreateTaskSchema } from '../schemas/create-task-schema';
-import { db } from '@/db/db';
 import { revalidatePath } from 'next/cache';
+
+import { db } from '@/db/db';
+
+import { subtasksTable, tasksTable } from '@/db/schema';
+
+import type { CreateTaskSchema } from '../schemas/create-task-schema';
 
 type SuccessResponse = {
 	ok: true;
@@ -22,7 +25,7 @@ export const createTaskAction = async (
 ): Promise<CreateTaskActionResponse> => {
 	try {
 		const parentColumn = await db.query.columnsTable.findFirst({
-			where: (columns, { eq }) => eq(columns.id, values.columnId),
+			where: (columns, { eq }) => eq(columns.id, Number(values.columnId)),
 		});
 
 		if (!parentColumn) {

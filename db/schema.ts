@@ -129,17 +129,22 @@ export const subtaskTaskRelation = relations(subtasksTable, ({ one }) => ({
 	}),
 }));
 
+export type User = typeof usersTable.$inferSelect;
 export type InsertUser = typeof usersTable.$inferInsert;
-export type SelectUser = typeof usersTable.$inferSelect;
 
+export type Board = typeof boardsTable.$inferSelect;
 export type InsertBoard = typeof boardsTable.$inferInsert;
-export type SelectBoard = typeof boardsTable.$inferSelect;
 
+export type Column = typeof columnsTable.$inferSelect;
 export type InsertColumn = typeof columnsTable.$inferInsert;
-export type SelectColumn = typeof columnsTable.$inferSelect;
 
+export type Task = typeof tasksTable.$inferSelect;
 export type InsertTask = typeof tasksTable.$inferInsert;
-export type SelectTask = typeof tasksTable.$inferSelect;
 
+export type Subtask = typeof subtasksTable.$inferSelect;
 export type InsertSubtask = typeof subtasksTable.$inferInsert;
-export type SelectSubtask = typeof subtasksTable.$inferSelect;
+
+
+export type TaskWithSubtasks = Task & {
+	subtasks: Subtask[];
+};

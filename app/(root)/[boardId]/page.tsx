@@ -1,5 +1,7 @@
 import { db } from '@/db/db';
 
+import { TaskDetailsModal } from '@/components/tasks/task-details-modal';
+
 interface Props {
 	params: { boardId: string };
 }
@@ -12,7 +14,9 @@ const BoardByIdPage: React.FC<Props> = async ({ params }) => {
 				with: {
 					tasks: {
 						with: {
-							subtasks: true,
+							subtasks: {
+								orderBy: (subtasks, utils) => [utils.desc(subtasks.id)],
+							},
 						},
 					},
 				},
@@ -31,7 +35,7 @@ const BoardByIdPage: React.FC<Props> = async ({ params }) => {
 				{board.columns.map(column => (
 					<li
 						key={column.id}
-						className='space-y-5'>
+						className='space-y-5 w-[280px]'>
 						<div className='flex items-center gap-1'>
 							<div
 								style={{
@@ -45,24 +49,14 @@ const BoardByIdPage: React.FC<Props> = async ({ params }) => {
 						</div>
 						{/* Tasks */}
 						<ul className='space-y-5'>
-							{column.tasks.map(task => {
-								const completedSubtasks = task.subtasks.filter(
-									subtask => subtask.isCompleted
-								).length;
-
-								return (
-									<li
-										key={task.id}
-										className='w-[280px] p-4 shadow-md rounded-lg bg-white dark:bg-mattBlack flex flex-col gap-1'>
-										<h3 className='font-bold text-black dark:text-white text-lg'>
-											{task.title}
-										</h3>
-										<span className='font-bold text-grayish'>
-											{completedSubtasks} of {task.subtasks.length} subtasks
-										</span>
-									</li>
-								);
-							})}
+							{column.tasks.map(task => (
+								<li
+									key={task.id}
+									className='w-full'>
+									{/* Task ticket */}
+									<TaskDetailsModal task={task} />
+								</li>
+							))}
 						</ul>
 					</li>
 				))}
