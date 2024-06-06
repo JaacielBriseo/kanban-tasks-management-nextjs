@@ -22,7 +22,6 @@ export const UpdateTaskModal = ({ task }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
 		<Dialog
-			modal={false}
 			open={isOpen}
 			onOpenChange={setIsOpen}>
 			<DialogTrigger className='size-full text-start focus:outline-none'>
@@ -30,6 +29,7 @@ export const UpdateTaskModal = ({ task }: Props) => {
 			</DialogTrigger>
 			<DialogContent
 				className='w-11/12 max-w-[480px]'
+				overlayClassName='bg-black/30'
 				showCloseButton={false}>
 				<DialogHeader>
 					<DialogTitle className='font-bold text-lg md:text-xl text-start'>

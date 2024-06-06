@@ -57,7 +57,7 @@ export const TaskDetailsModal = ({ task }: Props) => {
 							</h1>
 							{/* Edit - Delete */}
 
-							<DropdownMenu>
+							<DropdownMenu modal={false}>
 								<DropdownMenuTrigger asChild>
 									<button className='focus:outline-none'>
 										<Image
