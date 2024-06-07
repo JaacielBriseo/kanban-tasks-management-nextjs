@@ -14,6 +14,9 @@ export const userBoardsQuery = async () => {
 
 		const boards = await db.query.boardsTable.findMany({
 			where: (boardsTable, { eq }) => eq(boardsTable.userId, user.id),
+			with: {
+				columns: true,
+			},
 		});
 
 		return boards;

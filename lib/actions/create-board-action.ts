@@ -10,7 +10,7 @@ import type { CreateBoardSchema } from '@/lib/schemas/create-board-schema';
 type SuccessResponse = {
 	ok: true;
 	message: string;
-  boardId: number;
+	boardId: number;
 };
 
 type ErrorResponse = {
@@ -26,12 +26,22 @@ export const createBoardAction = async (
 	try {
 		const defaultUser = await db.query.usersTable.findFirst({
 			where: (users, { eq }) => eq(users.email, 'demo@user.com'),
+			with: {
+				boards: true,
+			},
 		});
 
 		if (!defaultUser) {
 			return {
 				ok: false,
 				error: 'User not found.',
+			};
+		}
+
+		if (defaultUser.boards.length >= 10) {
+			return {
+				ok: false,
+				error: 'You have reached the maximum number of boards.',
 			};
 		}
 
@@ -42,6 +52,13 @@ export const createBoardAction = async (
 				name: data.boardName,
 			})
 			.returning();
+
+		if (data.boardColumns.length >= 10) {
+			return {
+				ok: false,
+				error: 'You have reached the maximum number of columns.',
+			};
+		}
 
 		if (data.boardColumns.length > 0) {
 			await db.insert(columnsTable).values(
@@ -58,7 +75,7 @@ export const createBoardAction = async (
 		return {
 			ok: true,
 			message: 'Board created successfully.',
-      boardId: board.id,
+			boardId: board.id,
 		};
 	} catch (error) {
 		console.error(error);

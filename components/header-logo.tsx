@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
@@ -13,28 +14,30 @@ export const HeaderLogo = () => {
 	const { isSidebarOpen } = useSidebar();
 
 	return (
-		<div>
-			<Image
-				src={logoMobile}
-				alt='Mobile Logo'
-				className='md:hidden'
-			/>
-			<div
-				className={cn('mb-1 hidden md:block', {
-					hidden: isSidebarOpen,
-				})}>
+		<Link href='/'>
+			<div>
 				<Image
-					src={sidebarLogoDark}
-					alt='Logo'
-					className='dark:hidden block'
+					src={logoMobile}
+					alt='Mobile Logo'
+					className='md:hidden'
 				/>
+				<div
+					className={cn('mb-1 hidden md:block', {
+						'!hidden': isSidebarOpen,
+					})}>
+					<Image
+						src={sidebarLogoDark}
+						alt='Logo'
+						className='dark:hidden block'
+					/>
 
-				<Image
-					src={sidebarLogoLight}
-					alt='Logo'
-					className='hidden dark:block'
-				/>
+					<Image
+						src={sidebarLogoLight}
+						alt='Logo'
+						className='hidden dark:block'
+					/>
+				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };

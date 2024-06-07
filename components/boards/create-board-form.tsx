@@ -94,6 +94,7 @@ export const CreateBoardForm = ({ afterSubmitFn }: Props) => {
 							</FormLabel>
 							<FormControl>
 								<Input
+									variant='main'
 									placeholder='e.g. Web Design'
 									{...field}
 								/>
@@ -116,6 +117,7 @@ export const CreateBoardForm = ({ afterSubmitFn }: Props) => {
 									<div className='flex items-center gap-5'>
 										<FormControl>
 											<Input
+												variant='main'
 												placeholder='e.g. To Do'
 												value={field.value.name}
 												onChange={e => {
@@ -171,7 +173,7 @@ export const CreateBoardForm = ({ afterSubmitFn }: Props) => {
 					onClick={() =>
 						appendColumn({ name: 'Column Name', color: '#000000' })
 					}
-					className='bg-main/10 text-main font-bold py-[6px] rounded-full w-full'>
+					className='bg-main/10 text-main font-bold py-[6px] rounded-full w-full dark:bg-white'>
 					+ Add New Column
 				</button>
 

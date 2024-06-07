@@ -25,7 +25,7 @@ export const UpdateTaskModal = ({ task }: Props) => {
 			open={isOpen}
 			onOpenChange={setIsOpen}>
 			<DialogTrigger className='size-full text-start focus:outline-none'>
-				Edit
+				Edit Task
 			</DialogTrigger>
 			<DialogContent
 				className='w-11/12 max-w-[480px]'

@@ -1,14 +1,11 @@
 import { use } from 'react';
 
-import Image from 'next/image';
-
 import { userBoardsQuery } from '@/lib/queries/user-boards-query';
 
 import { HeaderLogo } from '@/components/header-logo';
+import { BoardActions } from '@/components/boards/board-actions';
 import { CreateTaskModal } from '@/components/tasks/create-task-modal';
 import { CurrentBoardNameWithSelector } from '@/components/current-board-name-with-selector';
-
-import ellipsis from '@/public/icon-vertical-ellipsis.svg';
 
 interface Props {
 	userBoardsPromise: ReturnType<typeof userBoardsQuery>;
@@ -27,14 +24,8 @@ export const Header = ({ userBoardsPromise }: Props) => {
 
 			<div className='flex items-center gap-5'>
 				<CreateTaskModal />
-				{/* TODO: Board actions */}
-				<button>
-					<Image
-						src={ellipsis}
-						alt='Ellipsis'
-					/>
-					<span className='sr-only'>Open Board Menu</span>
-				</button>
+
+				<BoardActions boards={userBoards} />
 			</div>
 		</header>
 	);

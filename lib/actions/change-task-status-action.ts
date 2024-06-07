@@ -55,7 +55,7 @@ export const changeTaskStatusAction = async (
 			})
 			.where(eq(tasksTable.id, taskId));
 
-		revalidatePath('/[boardId]');
+		revalidatePath('/[boardId]', 'page');
 
 		return {
 			ok: true,

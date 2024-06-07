@@ -21,6 +21,7 @@ import { SubtaskToggleCheckbox } from '@/components/subtasks/subtask-toggle-chec
 import ellipsisIcon from '@/public/icon-vertical-ellipsis.svg';
 
 import type { TaskWithSubtasks } from '@/db/schema';
+import { DeleteTaskAlertDialog } from './delete-task-alert-dialog';
 
 interface Props {
 	task: TaskWithSubtasks;
@@ -66,13 +67,13 @@ export const TaskDetailsModal = ({ task }: Props) => {
 										/>
 									</button>
 								</DropdownMenuTrigger>
-								<DropdownMenuContent>
+								<DropdownMenuContent className='dark:opacity-100 dark:bg-dark-400'>
 									<div className='size-full text-grayish relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'>
 										<UpdateTaskModal task={task} />
 									</div>
-									<DropdownMenuItem className='text-destructive'>
-										Delete
-									</DropdownMenuItem>
+									<div className='size-full text-danger relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'>
+										<DeleteTaskAlertDialog taskId={task.id} />
+									</div>
 								</DropdownMenuContent>
 							</DropdownMenu>
 						</div>

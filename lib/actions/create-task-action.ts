@@ -26,12 +26,22 @@ export const createTaskAction = async (
 	try {
 		const parentColumn = await db.query.columnsTable.findFirst({
 			where: (columns, { eq }) => eq(columns.id, Number(values.columnId)),
+			with: {
+				tasks: true,
+			},
 		});
 
 		if (!parentColumn) {
 			return {
 				ok: false,
 				error: 'Column not found.',
+			};
+		}
+
+		if (parentColumn.tasks.length >= 35) {
+			return {
+				ok: false,
+				error: 'You have reached the maximum number of tasks.',
 			};
 		}
 
@@ -55,7 +65,7 @@ export const createTaskAction = async (
 			await db.insert(subtasksTable).values(subtasks);
 		}
 
-		revalidatePath('/[boardId]');
+		revalidatePath('/[boardId]', 'page');
 
 		return {
 			ok: true,

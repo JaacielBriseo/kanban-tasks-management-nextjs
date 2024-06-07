@@ -1,57 +1,46 @@
 'use client';
 
-import { z } from 'zod';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useTransition } from 'react';
 
-import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+
+import { z } from 'zod';
+import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+
+import { createTaskAction } from '@/lib/actions/create-task-action';
+import { createTaskSchema } from '@/lib/schemas/create-task-schema';
+
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { createTaskSchema } from '@/lib/schemas/create-task-schema';
-import { useParams } from 'next/navigation';
-import { boardColumnsQuery } from '@/lib/queries/board-columns-query';
-import { useTransition } from 'react';
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '../ui/select';
-import { createTaskAction } from '@/lib/actions/create-task-action';
-import { toast } from 'sonner';
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
 import iconCross from '@/public/icon-cross.svg';
-import Image from 'next/image';
-import { Textarea } from '../ui/textarea';
+
+import type { Column } from '@/db/schema';
 
 interface Props {
 	onAfterSuccess?: () => void;
+	columns: Array<Column>;
 }
 
-export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
-	const params = useParams();
-
+export const CreateTaskForm = ({ onAfterSuccess, columns }: Props) => {
 	const [isPending, startTransition] = useTransition();
-
-	const boardId = params.boardId;
-
-	const { data: columns } = useQuery({
-		queryKey: [`columns.from.${boardId}`],
-		queryFn: async () => {
-			return await boardColumnsQuery(Number(boardId));
-		},
-		enabled: !!boardId && !isNaN(Number(boardId)),
-		initialData: [],
-	});
 
 	const form = useForm<z.infer<typeof createTaskSchema>>({
 		resolver: zodResolver(createTaskSchema),
@@ -103,9 +92,12 @@ export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
 					name='title'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='font-semibold text-sm text-grayish'>Title</FormLabel>
+							<FormLabel className='font-semibold text-sm text-grayish'>
+								Title
+							</FormLabel>
 							<FormControl>
 								<Input
+									variant='main'
 									placeholder='e.g. Take coffee break'
 									className='focus-visible:ring-main'
 									{...field}
@@ -121,9 +113,12 @@ export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
 					name='description'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='font-semibold text-sm text-grayish'>Description</FormLabel>
+							<FormLabel className='font-semibold text-sm text-grayish'>
+								Description
+							</FormLabel>
 							<FormControl>
 								<Textarea
+									variant='main'
 									className='resize-none w-full rounded-md p-2 focus-visible:ring-main'
 									placeholder={`e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.`}
 									{...field}
@@ -149,6 +144,7 @@ export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
 											<div className='flex items-center gap-5'>
 												<FormControl>
 													<Input
+														variant='main'
 														className='focus-visible:ring-main'
 														{...field}
 													/>
@@ -175,7 +171,7 @@ export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
 						type='button'
 						disabled={isPending}
 						onClick={() => appendSubtask('New Subtask')}
-						className='bg-main/10 text-main font-bold py-[6px] rounded-full w-full'>
+						className='bg-main/10 text-main font-bold py-[6px] rounded-full w-full dark:bg-white'>
 						+ Add New Subtask
 					</button>
 				</div>
@@ -185,7 +181,9 @@ export const CreateTaskForm = ({ onAfterSuccess }: Props) => {
 					name='columnId'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='font-semibold text-sm text-grayish'>Status</FormLabel>
+							<FormLabel className='font-semibold text-sm text-grayish'>
+								Status
+							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								defaultValue={columns?.[0]?.id.toString() ?? ''}>

@@ -69,7 +69,7 @@ export const updateTaskAction = async (
 			}
 		}
 
-		revalidatePath('/[boardId]');
+		revalidatePath('/[boardId]', 'page');
 
 		return {
 			ok: true,

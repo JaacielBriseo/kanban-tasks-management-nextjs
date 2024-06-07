@@ -1,18 +1,13 @@
 'use client';
 
-import { Suspense, use } from 'react';
-
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-
-import { userBoardsQuery } from '@/lib/queries/user-boards-query';
 
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { BoardsSelector } from '@/components/boards-selector';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import iconChevronDown from '@/public/icon-chevron-down.svg';
-import { usersTableRelations } from '@/db/schema';
 
 interface Props {
 	boards: Array<{
@@ -50,10 +45,7 @@ export const CurrentBoardNameWithSelector = ({ boards }: Props) => {
 			<DialogContent
 				className='w-11/12 max-w-[375px] rounded-xl overflow-hidden border-0'
 				showCloseButton={false}>
-				<Suspense fallback={'loading...'}>
-					<BoardsSelector boards={boards} />
-				</Suspense>
-
+				<BoardsSelector boards={boards} />
 				<ThemeSwitcher />
 			</DialogContent>
 		</Dialog>

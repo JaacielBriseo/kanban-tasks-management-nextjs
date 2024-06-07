@@ -42,8 +42,8 @@ export const toggleSubtaskAction = async (
 			})
 			.where(eq(subtasksTable.id, subtaskId));
 
-    revalidatePath('/[boardId]');
-      
+		revalidatePath('/[boardId]', 'page');
+
 		return {
 			ok: true,
 			message: 'Subtask toggled successfully.',

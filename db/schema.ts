@@ -148,3 +148,15 @@ export type InsertSubtask = typeof subtasksTable.$inferInsert;
 export type TaskWithSubtasks = Task & {
 	subtasks: Subtask[];
 };
+
+export type ColumnWithTasks = Column & {
+	tasks: TaskWithSubtasks[];
+};
+
+export type BoardWithColumns = Board & {
+	columns: Column[];
+};
+
+export type UserWithBoards = User & {
+	boards: BoardWithColumns[];
+};

@@ -466,7 +466,7 @@ export const GET = async (req: Request) => {
 
 	return NextResponse.json(
 		{
-			message: 'Hello World',
+			message: 'Seed correct',
 		},
 		{ status: 200 }
 	);
