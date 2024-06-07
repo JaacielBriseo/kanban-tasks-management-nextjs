@@ -1,8 +1,8 @@
-const RootPage = async () => {
+export const revalidate = 1;
+const RootPage = () => {
 
 	return (
 		<div>
-			<h1>Root Page</h1>
 		</div>
 	);
 };
